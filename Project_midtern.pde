@@ -1,4 +1,8 @@
+PImage imgLogo;
 PImage imgHead;
+PImage lego1;
+PImage lego2;
+PImage lego3;
 Ball[][] balls;
 Obstacle[][] obstacles;
 Snake snake;
@@ -14,6 +18,10 @@ void setup(){
   size(400,600);
   smooth();
   imgHead = loadImage("imgHead.png");
+  imgLogo = loadImage("imgLogo.png");
+  lego1 = loadImage("lego1.png");
+  lego2 = loadImage("lego2.png");
+  lego3 = loadImage("lego3.png");
   balls = new Ball[rowOfBallDisplay][numOfBalls];
   obstacles = new Obstacle[rowOfBallDisplay][numOfBalls];
   for(int j = 0; j<rowOfBallDisplay;j++){
@@ -32,9 +40,7 @@ void setup(){
 }
 void draw(){
   background(191, 29, 41);
-  textSize(20);
-  fill(255);
-  text("Snake length:"+snake.lengthOfSnake,40,60);
+
   if(mousePressed==true&&mouseX>=100&&mouseX<=300&&mouseY>=350&&mouseY<=430){
     start = true;
     snake.lengthOfSnake=1;
@@ -104,7 +110,7 @@ void draw(){
              }
            }
            if(obstacles[j][i].on==true){
-             if((snake.x-12.5 >= obstacles[j][i].x-12.5)&&(snake.x-12.5 <= obstacles[j][i].x+75)&&(snake.y-12.5 <= obstacles[j][i].y+25)&&(snake.y-12.5 >= balls[j][i].y)){//如果蛇吃到球就會變長
+             if((snake.x-12.5 >= obstacles[j][i].x-37.5)&&(snake.x-12.5 <= obstacles[j][i].x+37.5)&&(snake.y-12.5 <= obstacles[j][i].y+40)&&(snake.y-12.5 >= obstacles[j][i].y)){//如果蛇吃到球就會變長
                snake.lengthOfSnake--; 
                obstacles[j][i].number--;
                if(obstacles[j][i].number<=0){
@@ -130,8 +136,12 @@ void draw(){
       }
     }
     
-  
+    textSize(20);
+    fill(255);
+    text("Snake length:"+snake.lengthOfSnake,40,60);
+    
   }else{
+    image(imgLogo,120,80);
     fill(255);
     noStroke();
     rect(100,350,200,80);
@@ -217,20 +227,29 @@ class Obstacle{
   float x,y;
   int number;//障礙物的數值
   boolean on  = false;
+  int photoNumber ;
   void start(int rowNumber){
     x =(round(random(1,16)))*25-12.5;
     y  = 0;
     number = int(random(1,rowNumber+3));
     on = true;
+    photoNumber = int(random(1,3));
     
   }
   void display(){
     if(on == true){
-      fill(76, 163, 162);
-      rect(x-12.5, y, 75, 25);
+      if(photoNumber==1){
+        image(lego1,x-37.5, y, 75, 40);
+      }else if(photoNumber==2){
+        image(lego2,x-37.5, y, 75, 40);
+      }else if(photoNumber==3){
+        image(lego3,x-37.5, y, 75, 40);
+      }
+      //fill(76, 163, 162);
+      //rect(x-12.5, y, 75, 25);
       textSize(12);
       fill(255);
-      text(number,x-4,y+12.5);
+      text(number,x-4,y+25);
     }
   }
   
